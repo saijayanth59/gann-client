@@ -18,7 +18,7 @@ export default function CsvProcessor() {
       formData.append("csvContent", csvContent);
 
       const response = await fetch(
-        "https://stock-history-api.onrender.com/gann-csv",
+        "https://stock-history-api.onrender.com/gann/text-csv",
         {
           method: "POST",
           body: formData,

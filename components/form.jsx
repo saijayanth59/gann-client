@@ -62,31 +62,35 @@ export default function CSVUploader() {
       files.forEach((file) => {
         formData.append("files", file);
       });
-      formData.forEach((value, key) => {
-        console.log(key, value);
-      });
 
-      //   const response = await fetch('http://localhost:8000/process-csv/', {
-      //     method: 'POST',
-      //     body: formData,
-      //   });
+      const response = await fetch(
+        "https://stock-history-api.onrender.com/gann/combine-csv",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
-      //   if (!response.ok) {
-      //     throw new Error('Failed to process files');
-      //   }
+      if (!response.ok) {
+        throw new Error("Failed to process CSV.");
+      }
+      setIsUploading(false);
+      const now = new Date();
+      const formattedDate = now
+        .toISOString()
+        .replace(/[-:.]/g, "")
+        .slice(0, 15);
+      const filename = `gann_result_${formattedDate}.xlsx`;
 
-      //   const blob = await response.blob();
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
 
-      //   const timestamp = new Date().toISOString().replace(/[:.-]/g, '_'); // Format: YYYY_MM_DDTHH_MM_SS
-      //   const filename = `processed_data_${timestamp}.xlsx`;
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
 
-      //   const url = window.URL.createObjectURL(blob);
-      //   const a = document.createElement('a');
-      //   a.href = url;
-      //   a.download = filename; // Use the timestamp as part of the filename
-      //   document.body.appendChild(a);
-      //   a.click();
-      //   document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error during file processing:", error);
       alert("Failed to process files. Please try again.");
@@ -194,11 +198,13 @@ export default function CSVUploader() {
             transition={{ duration: 0.3 }}
           >
             <Button
+              type="submit"
+              disabled={isUploading || files.length == 0}
               onClick={handleDownload}
               className="w-full"
-              disabled={files.length === 0}
             >
-              <Download className="mr-2 h-4 w-4" /> Download Processed File
+              <Download className="mr-2 h-4 w-4" />
+              {isUploading ? "Uploading..." : "Process CSV"}
             </Button>
           </div>
         </CardContent>
