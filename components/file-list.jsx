@@ -2,18 +2,16 @@ import { File } from "lucide-react";
 
 export function FileList({ files }) {
   return (
-    <ul className="mt-4 space-y-2">
+    <ul className="space-y-2">
       {files.map((file, index) => (
         <li
-          key={file.name}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.1 }}
-          className="flex items-center p-2 bg-gray-100 dark:bg-gray-800 rounded-md"
+          key={index}
+          className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300"
         >
-          <File className="w-5 h-5 mr-2 text-blue-500 dark:text-blue-400" />
-          <span className="text-sm text-gray-600 dark:text-gray-300 truncate">
-            {file.name}
+          <File className="h-4 w-4" />
+          <span>{file.name}</span>
+          <span className="text-gray-400 dark:text-gray-500">
+            ({(file.size / 1024).toFixed(2)} KB)
           </span>
         </li>
       ))}
