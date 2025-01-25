@@ -7,6 +7,7 @@ import CSVUploader from "@/components/CSVUploader";
 import CSVProcessor from "@/components/CSVProcessor";
 import { HowToUseDialog } from "@/components/HowToUseDialog";
 import { Moon, Sun } from "lucide-react";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [showUploader, setShowUploader] = useState(true);
@@ -26,6 +27,7 @@ export default function Home() {
         isDarkMode ? "dark bg-gray-900" : "bg-gray-100"
       }`}
     >
+      <Toaster position="top-center" reverseOrder={false} />
       <Card className="w-full max-w-2xl bg-white dark:bg-gray-800 transition-colors duration-300">
         <CardHeader className="flex md:flex-row items-center justify-between">
           <Button

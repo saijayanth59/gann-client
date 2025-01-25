@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileList } from "@/components/file-list";
 import { Upload, Download, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function CSVUploader() {
   const [files, setFiles] = useState([]);
@@ -63,9 +64,10 @@ export default function CSVUploader() {
       link.click();
 
       window.URL.revokeObjectURL(url);
+      toast.success("Download Success!");
     } catch (error) {
       console.error("Error during file processing:", error);
-      alert("Failed to process files. Please try again.");
+      toast.error(error.message);
     } finally {
       setIsUploading(false);
     }
